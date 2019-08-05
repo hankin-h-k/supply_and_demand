@@ -31,8 +31,8 @@ class HomeController extends Controller
         //文章
         $articles = $article->all();
         //推荐兼职
-        $type = $request->input('type', 'MONTHLY');
-        $jobs = $job->where('is_recommend', 1)->where('pay_type', $type)->paginate();
+        // $type = $request->input('type', 'MONTHLY');
+        // $jobs = $job->where('is_recommend', 1)->where('pay_type', $type)->paginate();
         return $this->success('ok', compact('ads', 'articles', 'jobs'));
     }
 
