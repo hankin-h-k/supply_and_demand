@@ -42,11 +42,7 @@ class Controller extends BaseController
 
 	public function test()
 	{
-        $link_email = '776514654qq.com';
-		$link_email_arr = explode('@', $link_email);
-        $link_email_arr[0] = substr_replace($link_email_arr[0], '*****', 3);
-        $link_email = implode('@', $link_email_arr);
-        dd($link_email);
+        dd(random_int(0,1));
 	}
 
 

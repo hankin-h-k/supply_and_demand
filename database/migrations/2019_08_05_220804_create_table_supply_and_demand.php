@@ -30,7 +30,7 @@ class CreateTableSupplyAndDemand extends Migration
             $table->string('link_wechat')->nullable()->comment('联系微信');
             $table->string('link_email')->nullable()->comment('联系邮箱');
             $table->string('link_mobile')->nullable()->comment('联系电话');
-            $table->enum('staus', ['UNPLAY', 'UNDERWAY', 'FINISHED', 'CANCELED'])->nullable()->comment('状态');
+            $table->enum('status', ['UNPLAY', 'UNDERWAY', 'FINISHED', 'CANCELED'])->nullable()->comment('状态');
             $table->timestamps();
         });
     }

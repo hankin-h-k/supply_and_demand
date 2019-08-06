@@ -4,41 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Utils\Str;
-use App\Models\ApplicationForm;
 use App\Models\Wechat;
-use App\Models\JobCategory;
 use App\Models\User;
+use App\Models\Collect;
 class UsersController extends Controller
 {
 	/**
 	 * 我的简历
 	 * @return [type] [description]
 	 */
-    public function user(JobCategory $category)
+    public function user(Request $request)
     {
     	$user = auth()->user();
-        $job_category_name = '';
-        $sub_job_category_name = '';
-        //工作类型
-        if ($user->category_id) {
-            $sub_job_category = $category->where('id', $user->category_id)->first();
-            if (empty($sub_job_category)) {
-                $job_category_name = '';
-                $sub_job_category_name = '';
-            }else{
-                $job_category = $category->where('id', $sub_job_category->parent_id)->first();
-                if (empty($job_category)) {
-                    $job_category_name = '';
-                }else{
-                    $job_category_name = $job_category->name;
-                }
-                $sub_job_category_name = $sub_job_category->name;
-            }
-            
-        }
-        $user->job_category_name = $job_category_name;
-        $user->sub_job_category_name = $sub_job_category_name;
-        $wechat = $user->wechat;
     	return $this->success('ok', $user);
     }
 
@@ -66,92 +43,8 @@ class UsersController extends Controller
     }
 
     /**
-     * 修改简历
-     * @return [type] [description]
+     * 修改头像
      */
-    public function updateUser(Request $request)
-    {	
-    	$user = auth()->user();
-    	if ($request->has('name') && strlen($request->name) >20 ) {
-    		return $this->failure('请输入十个字以内的名字');
-    	}
-    	if ($request->name != $user->name) {
-    		$user->name = $request->name;
-    	}
-    	// if ($request->has('mobile') && !Str::isMobile($request->mobile)) {
-    	// 	return $this->failure('请输入正确的手机号');
-    	// }
-    	// if ($request->mobile != $user->mobile) {
-    	// 	$user->mobile = $request->mobile;
-    	// }
-    	if ($request->has("sex") && $request->sex != $user->sex) {
-    		$user->sex = $request->sex;
-    	}
-    	if ($request->has("birthday") && $request->birthday != $user->birthday) {
-    		$user->birthday = $request->birthday;
-    	}
-    	if ($request->has("ducation") && $request->ducation != $user->ducation) {
-    		$user->ducation = $request->ducation;
-    	}
-    	if ($request->has('school') && strlen($request->school) > 20 ) {
-    		return $this->failure('请输入二十个字以内的学校名字');
-    	}
-    	if ($request->school != $user->school) {
-    		$user->school = $request->school;
-    	}
-    	if ($request->has("province") && $request->province != $user->province) {
-    		$user->province = $request->province;
-    	}
-    	if ($request->has("city") && $request->city != $user->city) {
-    		$user->city = $request->city;
-    	}
-    	if ($request->has("dist") && $request->dist != $user->dist) {
-    		$user->dist = $request->dist;
-    	}
-        if ($request->has("address") && $request->address != $user->address) {
-            $user->address = $request->address;
-        }
-    	if ($request->has("category_id") && $request->category_id != $user->category_id) {
-    		$user->category_id = $request->category_id;
-    	}
-    	if ($request->has("pay_type") && $request->pay_type != $user->pay_type) {
-    		$user->pay_type = $request->pay_type;
-    	}
-        if ($user->name && $user->mobile && $user->sex && $user->birthday && $user->ducation && $user->school && $user->dist && $user->category_id && $user->pay_type) {
-            $user->is_completed = 1;
-        }
-    	$user->save();
-    	return $this->success('ok');
-    }
-
-    /**
-     * 我的报名
-     * @param  Request         $request [description]
-     * @param  ApplicationForm $form    [description]
-     * @return [type]                   [description]
-     */
-    public function myApplicationForms(Request $request)
-    {
-        $user = auth()->user();
-        $status = $request->input('status');
-        $forms = $user->forms()->with('job')->whereHas('job', function($sql) use($status){
-            $sql->where('status', $status);
-        })->orderBy('id', 'desc')->paginate();
-        return $this->success('ok', $forms);
-    }
-
-    /**
-     * 我的收藏
-     * @param  Request $request [description]
-     * @return [type]           [description]
-     */
-    public function myCollectJobs(Request $request)
-    {
-        $user = auth()->user();
-        $collects = $user->collects()->with('job')->orderBy('id', 'desc')->paginate();
-        return $this->success('ok', $collects);
-    }
-
     public function updateUserAvatar(Request $request)
     {
         $user = auth()->user();
@@ -162,5 +55,18 @@ class UsersController extends Controller
         $user->avatar = $avatar;
         $user->save();
         return $this->success('ok', $user);
+    }
+
+    /**
+     * 我的收藏
+     */
+    public function myCollects(Request $request, Collect $collect)
+    {
+        $user = auth()->user();
+        $status = $request->input('status', 'UNDERWAY');
+        $collects = $user->collects()->with('supply_and_demand')->whereHas('supply_and_demand', function($sql) use($status){
+            $sql->where('status', $status);
+        })->orderBy('id', 'desc')->get();
+        return $this->success('ok', $collects);
     }
 }

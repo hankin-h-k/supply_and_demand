@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ApplyAndDemand extends Model
+class SupplyAndDemand extends Model
 {
     public function industry()
     {
-    	return $this->hasOne(Industry::class);
+    	return $this->hasOne(Industry::class, 'id', 'industry_id');
     }
 }
