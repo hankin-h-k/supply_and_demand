@@ -31,22 +31,16 @@ Route::middleware(['auth:api'])->group(function () {
 	Route::post('logout','Auth\LoginController@logout');
 	//重置密码
     Route::post('admin/reset/password', 'Auth\ResetPasswordController@resetPassword');
-    Route::middleware(['add_form_id'])->group(function(){
+    // Route::middleware(['add_form_id'])->group(function(){
 		/**
-		 * 工作
+		 * 供需
 		 */
-		//工作列表
-		Route::get('jobs', 'JobsController@jobs');
-		//工作详情
-		Route::get('jobs/{job}', 'JobsController@job');
-		//工作报名
-		Route::post('join/jobs/{job}', 'JobsController@joinJob');
-		//取消报名
-		Route::post('cancel/join/jobs/{job}', 'JobsController@cancelJoinJob');
-		//收餐工作
-		Route::post('collect/jobs/{job}', 'JobsController@collectJob');
-		//工作类型
-		Route::get('job/categories', 'JobsController@jobCategories');
+		//列表
+		Route::get('supply/and/demands', 'SupplyAndDemandsController@index');
+		//详情
+		Route::get('supply/and/demands/{supply_and_demand}', 'SupplyAndDemandsController@show');
+		//收藏
+		Route::post('collect/supply/and/demands/{supply_and_demand}', 'SupplyAndDemandsController@collectApplyAndDemand');
 
 		/**
 		 * 我的
@@ -59,15 +53,18 @@ Route::middleware(['auth:api'])->group(function () {
 		Route::put('user/avatar', 'UsersController@updateUserAvatar');
 		//修改微信信息
 		Route::put('wechat', 'UsersController@updateWechat');
-		//我的报名
-		Route::get('my/application/forms', 'UsersController@myApplicationForms');
 		//我的收藏
-		Route::get('my/collect/jobs', 'UsersController@myCollectJobs');
+		Route::get('my/collects', 'UsersController@myCollects');
 
 		/**
 		 * 首页
 		 */
 		Route::get('home', 'HomeController@home');
+
+		/**
+		 * 联系方式及
+		 */
+		Route::get('link/info', 'HomeController@linInfo');
 
 		/**
 		 * 地区
@@ -79,7 +76,7 @@ Route::middleware(['auth:api'])->group(function () {
 		 */
 		Route::get('articles', 'HomeController@articles');
 		Route::get('articles/{article}', 'HomeController@article');
-    });
+    // });
 	//图片上传
 	Route::post('uploads', 'Controller@upload');
 

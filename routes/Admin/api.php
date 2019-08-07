@@ -34,38 +34,6 @@ Route::middleware('auth:api')->group(function () {
 	Route::delete('users/{user}/admin', 'UsersController@deleteAdmin');
 
 	/**
-	 * 兼职
-	 */
-	//兼职列表
-	Route::get('jobs', 'JobsController@jobs');
-	//兼职详情
-	Route::get('jobs/{job}', 'JobsController@job');
-	//兼职删除
-	Route::delete('jobs/{job}', 'JobsController@deleteJob');
-	//兼职修改
-	Route::put('jobs/{job}', 'JobsController@updateJob');
-	//添加兼职
-	Route::post('jobs', 'JobsController@storeJob');
-	//发布兼职
-	Route::put('jobs/{job}/status', 'JobsController@updateJobStatus');
-	//推荐兼职
-	Route::put('recommend/jobs/{job}', 'JobsController@recommendJob');
-	//置顶兼职
-	Route::put('top/jobs/{job}', 'JobsController@topJob');
-	//兼职报名成员
-	Route::get('jobs/{job}/members', 'JobsController@jobMembers');
-	//兼职分类列表
-	Route::get('job/categories', 'JobsController@jobCategories');
-	//兼职分类详情
-	Route::get('job/categories/{categoty}', 'JobsController@jobCategory');
-	//删除兼职分类
-	Route::delete('job/categories/{category}', 'JobsController@deleteJobCategory');
-	//兼职分类添加
-	Route::post('job/categories', 'JobsController@storeJobCategory');
-	//兼职分类修改
-	Route::put('job/categories/{category}', 'JobsController@updateJobCategory');
-
-	/**
 	 * 广告
 	 */
 	//广告列表
@@ -92,4 +60,26 @@ Route::middleware('auth:api')->group(function () {
 	Route::put('articles/{article}', 'ArticlesController@updateArticle');
 	//文章删除
 	Route::delete('articles/{article}', 'ArticlesController@deleteArticle');
+
+	/**
+	 * 添加联系信息
+	 */
+	Route::get('link/info', 'UsersController@linkInfo');
+	Route::post('link/info', 'UsersController@updateLinkInfo');
+
+	/**
+	 * 供需
+	 */
+	//取消置顶
+	Route::put('cancel/top/supply/and/demands/{supply_and_demand}', 'SupplyAndDemandsController@cancelTopSupplyAndDemand');
+	//置顶
+	Route::put('top/supply/and/demands/{supply_and_demand}', 'SupplyAndDemandsController@topSupplyAndDemand');
+	//列表
+	Route::get('supply/and/demands', 'SupplyAndDemandsController@supplyAndDemands');
+	//详情
+	Route::get('supply/and/demands/{supply_and_demand}', 'SupplyAndDemandsController@supplyAndDemands');
+	//修改状态
+	Route::put('supply/and/demands/{supply_and_demand}/status', 'SupplyAndDemandsController@updateSupplyAndDemandStatus');
+	//推荐
+	Route::put('recommend/supply/and/demands/{supply_and_demand}', 'SupplyAndDemandsController@recommendSupplyAndDemand');
 });

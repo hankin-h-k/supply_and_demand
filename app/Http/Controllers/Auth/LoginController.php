@@ -219,7 +219,6 @@ class LoginController extends Controller
         //本地登录
         if ($this->attemptLogin($request)) {
 
-
             //需要返回access_token
             if($request->expectsJson()){
                 $user = $this->guard()->user();

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\ApplicationForm;
+use App\Models\Info;
 class UsersController extends Controller
 {
     public function users(Request $request, User $user)
@@ -178,5 +179,42 @@ class UsersController extends Controller
             'user_num_arr'=>$user_num_arr,
             'day_arr'=>$day_arr
         ];
+    }
+
+    /**
+     * 添加联系信息
+     */
+    public function updateLinkInfo(Request $request, Info $info)
+    {
+        $qrcode = $request->input('qrcode');
+        if (empty($qrcode)) {
+            return $this->failure('请上传二维码');
+        }
+        $mobile = $request->input('mobile');
+        if (empty($mobile)) {
+            return $this->failure('请输入联系号码');
+        }
+        $wechat = $request->input('wechat');
+        if (empty($wechat)) {
+            return $this->failure('请输入联系微信号');
+        }
+        $info_obj = $info->orderBy('id', 'desc')->first();
+        if (empty($info_obj)) {
+            $info_obj = new Info();
+        }
+        $info_obj->qrcode = $qrcode;
+        $info_obj->mobile = $mobile;
+        $info_obj->wechat = $wechat;
+        $info_obj->save();
+        return $this->success('ok', $info_obj);
+    }
+
+    /**
+     * 联系信息
+     */
+    public function linkInfo(Request $request, Info $info)
+    {
+        $info_obj = $info->orderBy('id', 'desc')->first();
+        return $this->success('ok', $info_obj);
     }
 }

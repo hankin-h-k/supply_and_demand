@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Ad;
 use App\Models\Article;
-use App\Models\Job;
 use App\Models\Address;
+use App\Models\SupplyAndDemand;
+use App\Models\Info;
 class HomeController extends Controller
 {
     /**
@@ -24,18 +25,29 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function home(Request $request, Ad $ad, Article $article, Job $job)
+    public function home(Request $request, Ad $ad, Article $article, SupplyAndDemand $supply_and_demand)
     {
         //广告列表
         $ads = $ad->all();
         //文章
         $articles = $article->all();
         //推荐兼职
-        // $type = $request->input('type', 'MONTHLY');
-        // $jobs = $job->where('is_recommend', 1)->where('pay_type', $type)->paginate();
-        return $this->success('ok', compact('ads', 'articles', 'jobs'));
+        $type = $request->input('type', 'SUPPLY');
+        $supply_and_demands = $supply_and_demand->where('is_recommend', 1)->where('type', $type)->where('status', 'UNDERWAY')->paginate();
+        foreach ($supply_and_demands as $supply_and_demand) {
+            $supply_and_demand->pics = json_decode($supply_and_demand->pics, true);
+        }
+        return $this->success('ok', compact('ads', 'articles', 'supply_and_demands'));
     }
 
+    /**
+     * 联系信息
+     */
+    public function linInfo(Request $request, Info $info)
+    {
+        $info = $info->orderBy('id', 'desc')->first();
+        return $this->success('ok', $info);
+    }
     /**
      * 地址
      * @param  Request $request [description]

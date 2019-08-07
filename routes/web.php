@@ -21,12 +21,9 @@ Route::get('/', function () {
 Auth::routes();
 Route::post('wechat/mobile', 'Auth\LoginController@getPhone');
 
-// Route::middleware('auth')->group(function () {
-	
+Route::middleware('auth')->group(function () {
+	Route::get('cancel/top/supply/and/demands/{supply_and_demand}', 'Admin\SupplyAndDemandsController@cancelTopSupplyAndDemand');
+	Route::get('recommend/supply/and/demands/{supply_and_demand}', 'Admin\SupplyAndDemandsController@recommendSupplyAndDemand');
 
-// });
+});
 
-Route::get('supply/and/demands', 'SupplyAndDemandsController@index');
-Route::get('supply/and/demands/{supply_and_demand}', 'SupplyAndDemandsController@show');
-Route::get('collect/supply/and/demands/{supply_and_demand}', 'SupplyAndDemandsController@collectApplyAndDemand');
-Route::get('my/collects', 'UsersController@myCollects');
