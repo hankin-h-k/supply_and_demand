@@ -20,6 +20,8 @@ Route::middleware('auth:api')->group(function () {
 	Route::get('users/{user}/applycations', 'UsersController@userApplycations');
 	//新增用户
 	Route::get('new/user/num', 'UsersController@newUserNum');
+	//用户发布
+	Route::get('users/{user}/supply/and/demands', 'UsersController@userSupplyAndDemands');
 
 	/**
 	 * 管理员

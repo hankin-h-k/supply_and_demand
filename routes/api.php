@@ -39,13 +39,15 @@ Route::middleware(['auth:api'])->group(function () {
 		Route::get('supply/and/demands', 'SupplyAndDemandsController@index');
 		//详情
 		Route::get('supply/and/demands/{supply_and_demand}', 'SupplyAndDemandsController@show');
+		//申请供需
+		Route::post('supply/and/demands', 'SupplyAndDemandsController@storeSupplyAndDemand');
 		//收藏
 		Route::post('collect/supply/and/demands/{supply_and_demand}', 'SupplyAndDemandsController@collectApplyAndDemand');
 
 		/**
 		 * 我的
 		 */
-		//我的简历
+		//我的
 		Route::get('user', 'UsersController@user');
 		//修改简历
 		Route::put('user', 'UsersController@updateUser');
@@ -70,6 +72,11 @@ Route::middleware(['auth:api'])->group(function () {
 		 * 地区
 		 */
 		Route::get('addresses', 'HomeController@addresses');
+
+		/**
+		 * 行业列表
+		 */
+		Route::get('industries', 'HomeController@industries');
 
 		/**
 		 * 文章

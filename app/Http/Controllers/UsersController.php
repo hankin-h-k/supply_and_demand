@@ -7,6 +7,7 @@ use App\Utils\Str;
 use App\Models\Wechat;
 use App\Models\User;
 use App\Models\Collect;
+use App\Models\SupplyAndDemand;
 class UsersController extends Controller
 {
 	/**
@@ -64,9 +65,29 @@ class UsersController extends Controller
     {
         $user = auth()->user();
         $status = $request->input('status', 'UNDERWAY');
-        $collects = $user->collects()->with('supply_and_demand')->whereHas('supply_and_demand', function($sql) use($status){
-            $sql->where('status', $status);
-        })->orderBy('id', 'desc')->get();
+        $type = $request->input('type','SUPPLY');
+        $collects = $user->collects()->with('supply_and_demand')->whereHas('supply_and_demand', function($sql) use($status, $type){
+            $sql->where('status', $status)->where('type', $type);
+        })->orderBy('id', 'desc')->paginate();
         return $this->success('ok', $collects);
+    }
+
+    /**
+     * 我的发布
+     */
+    public function userSupplyAndDemands(Request $request, SupplyAndDemand $supply_and_demand)
+    {
+        $user_id = auth()->id();
+        $supply_and_demands = $supply_and_demand->where('user_id', $user_id);
+        $type = $request->input('type');
+        if ($type) {
+            $$supply_and_demands = $supply_and_demands->where('type', $type);
+        }
+        $status = $request->input('status');
+        if ($status) {
+            $$supply_and_demands = $supply_and_demands->where('status', $status);
+        }
+        $supply_and_demands = $supply_and_demands->orderBy('id', 'desc')->paginate();
+        return $this->success('ok', $supply_and_demands);
     }
 }
