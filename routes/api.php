@@ -57,6 +57,8 @@ Route::middleware(['auth:api'])->group(function () {
 		Route::put('wechat', 'UsersController@updateWechat');
 		//我的收藏
 		Route::get('my/collects', 'UsersController@myCollects');
+		//我的发布
+		Route::get('/user/supply/and/demands', 'UsersController@user@userSupplyAndDemands');
 
 		/**
 		 * 首页

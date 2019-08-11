@@ -30,4 +30,4 @@ Route::middleware('auth')->group(function () {
 	Route::get('home', 'HomeController@home');
 	Route::get('industries', 'HomeController@industries');
 });
-
+Route::get('/user/supply/and/demands', 'UsersController@userSupplyAndDemands');

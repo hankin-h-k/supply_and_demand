@@ -235,6 +235,9 @@ class UsersController extends Controller
             $$supply_and_demands = $supply_and_demands->where('status', $status);
         }
         $supply_and_demands = $supply_and_demands->orderBy('id', 'desc')->paginate();
+        foreach ($supply_and_demands as $supply_and_demand) {
+            $supply_and_demand->pics = json_decode($supply_and_demand->pics, true);
+        }
         return $this->success('ok', $supply_and_demands);
     }
 }
