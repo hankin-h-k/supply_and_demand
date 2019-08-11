@@ -77,8 +77,7 @@ class UsersController extends Controller
      */
     public function userSupplyAndDemands(Request $request, SupplyAndDemand $supply_and_demand)
     {
-        // $user_id = auth()->id();
-        $user_id = 1;
+        $user_id = auth()->id();
         $supply_and_demands = $supply_and_demand->where('user_id', $user_id);
         $type = $request->input('type');
         if ($type) {
