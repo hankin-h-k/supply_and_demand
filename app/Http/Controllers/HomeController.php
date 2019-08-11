@@ -91,6 +91,7 @@ class HomeController extends Controller
 
     public function industries(Request $request, Industry $industry)
     {
-        return $this->success('ok', $industry->all());
+        $industries = $industry->all();
+        return $this->success('ok', $industries);
     }
 }
