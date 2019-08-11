@@ -78,15 +78,18 @@ class UsersController extends Controller
     public function userSupplyAndDemands(Request $request, SupplyAndDemand $supply_and_demand)
     {
         $user_id = auth()->id();
-        $supply_and_demands = $supply_and_demand->where('user_id', $user_id);
+        $user_id =1;
         $type = $request->input('type');
-        if ($type) {
-            $$supply_and_demands = $supply_and_demands->where('type', $type);
-        }
         $status = $request->input('status');
-        if ($status) {
-            $$supply_and_demands = $supply_and_demands->where('status', $status);
-        }
+        $supply_and_demands = SupplyAndDemand::where('user_id', $user_id)->where(function($sql) use($type, $status){
+            if ($type) {
+                $sql = $sql->where('type', 'SUPPLY');
+            }
+            if ($status) {
+                $sql = $sql->where('status', 'UNDERWAY');
+            }
+        });
+        
         $supply_and_demands = $supply_and_demands->orderBy('id', 'desc')->paginate();
         foreach ($supply_and_demands as $supply_and_demand) {
             $supply_and_demand->pics = json_decode($supply_and_demand->pics, true);
