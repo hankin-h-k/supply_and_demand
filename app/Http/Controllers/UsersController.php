@@ -69,6 +69,9 @@ class UsersController extends Controller
         $collects = $user->collects()->with('supply_and_demand')->whereHas('supply_and_demand', function($sql) use($type){
             $sql->where('type', $type);
         })->orderBy('id', 'desc')->paginate();
+        foreach ($collects as $collect) {
+            $collect->supply_and_demand->pics = json_decode($collect->supply_and_demand->pics, true);
+        }
         return $this->success('ok', $collects);
     }
 

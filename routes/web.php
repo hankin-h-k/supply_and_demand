@@ -32,4 +32,6 @@ Route::middleware('auth')->group(function () {
 });
 Route::get('/user/supply/and/demands', 'UsersController@userSupplyAndDemands');
 Route::get('supply/and/demands/{supply_and_demand}', 'SupplyAndDemandsController@show');
+		Route::get('my/collects', 'UsersController@myCollects');
+
 
