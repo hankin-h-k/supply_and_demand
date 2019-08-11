@@ -64,10 +64,10 @@ class UsersController extends Controller
     public function myCollects(Request $request, Collect $collect)
     {
         $user = auth()->user();
-        $status = $request->input('status', 'UNDERWAY');
+        // $status = $request->input('status', 'UNDERWAY');
         $type = $request->input('type','SUPPLY');
-        $collects = $user->collects()->with('supply_and_demand')->whereHas('supply_and_demand', function($sql) use($status, $type){
-            $sql->where('status', $status)->where('type', $type);
+        $collects = $user->collects()->with('supply_and_demand')->whereHas('supply_and_demand', function($sql) use($type){
+            $sql->where('type', $type);
         })->orderBy('id', 'desc')->paginate();
         return $this->success('ok', $collects);
     }
