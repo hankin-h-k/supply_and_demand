@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\SupplyAndDemand;
 use App\Models\Collect;
+use App\Models\User;
 class SupplyAndDemandsController extends Controller
 {
 	/**
@@ -58,7 +59,10 @@ class SupplyAndDemandsController extends Controller
     	$supply_and_demand->link_email = implode('@', $link_email_arr);
     	//隐藏联系方式
     	$supply_and_demand->link_mobile = substr_replace($supply_and_demand->link_mobile, '********', 3);
-    	return $this->success('ok', $supply_and_demand);
+    	//是否收藏
+        $user = auth()->user();
+        $supply_and_demand->is_collected = $user->isCollected($supply_and_demand);
+        return $this->success('ok', $supply_and_demand);
     }
 
     /**

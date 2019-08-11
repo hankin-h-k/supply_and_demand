@@ -56,4 +56,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Collect::class);
     }
+
+    public function isCollected($supply_and_demand)
+    {
+        $is_collected = $this->collects()->where('supply_and_demand_id', $supply_and_demand->id)->first();
+        return $is_collected?1:0;
+    }
 }
