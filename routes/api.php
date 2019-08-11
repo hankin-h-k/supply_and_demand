@@ -58,7 +58,7 @@ Route::middleware(['auth:api'])->group(function () {
 		//我的收藏
 		Route::get('my/collects', 'UsersController@myCollects');
 		//我的发布
-		Route::get('/user/supply/and/demands', 'UsersController@user@userSupplyAndDemands');
+		Route::get('/user/supply/and/demands', 'UsersController@userSupplyAndDemands');
 
 		/**
 		 * 首页
