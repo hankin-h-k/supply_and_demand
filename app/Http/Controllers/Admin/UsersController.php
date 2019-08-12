@@ -11,8 +11,7 @@ class UsersController extends Controller
 {
     public function users(Request $request, User $user)
     {	
-        $is_completed = $request->input('is_completed');
-    	$users = $user->where('is_completed', $is_completed);
+    	$users = $user->orderBy('id', 'desc');
         $keyword = $request->input('keyword');
         if ($keyword) {
             $keyword = trim($keyword);
@@ -21,7 +20,7 @@ class UsersController extends Controller
                 ->orWhere('name', 'like', '%'.$keyword.'%');
             });
         }
-        $users = $users->orderBy('id', 'desc')->paginate();
+        $users = $users->paginate();
     	return $this->success('ok', $users);
     }
 
