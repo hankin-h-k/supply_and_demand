@@ -7,6 +7,7 @@ use App\Utils\Str;
 use App\Models\Wechat;
 use App\Models\User;
 use App\Models\Collect;
+use App\Models\SupplyAndDemand;
 class UsersController extends Controller
 {
 	/**
@@ -63,10 +64,39 @@ class UsersController extends Controller
     public function myCollects(Request $request, Collect $collect)
     {
         $user = auth()->user();
-        $status = $request->input('status', 'UNDERWAY');
-        $collects = $user->collects()->with('supply_and_demand')->whereHas('supply_and_demand', function($sql) use($status){
-            $sql->where('status', $status);
-        })->orderBy('id', 'desc')->get();
+        // $status = $request->input('status', 'UNDERWAY');
+        $type = $request->input('type','SUPPLY');
+        $collects = $user->collects()->with('supply_and_demand')->whereHas('supply_and_demand', function($sql) use($type){
+            $sql->where('type', $type);
+        })->orderBy('id', 'desc')->paginate();
+        foreach ($collects as $collect) {
+            $collect->supply_and_demand->pics = json_decode($collect->supply_and_demand->pics, true);
+        }
         return $this->success('ok', $collects);
+    }
+
+    /**
+     * 我的发布
+     */
+    public function userSupplyAndDemands(Request $request, SupplyAndDemand $supply_and_demand)
+    {
+        $user_id = auth()->id();
+        $user_id =1;
+        $type = $request->input('type');
+        $status = $request->input('status');
+        $supply_and_demands = SupplyAndDemand::where('user_id', $user_id)->where(function($sql) use($type, $status){
+            if ($type) {
+                $sql = $sql->where('type', 'SUPPLY');
+            }
+            if ($status) {
+                $sql = $sql->where('status', 'UNDERWAY');
+            }
+        });
+        
+        $supply_and_demands = $supply_and_demands->orderBy('id', 'desc')->paginate();
+        foreach ($supply_and_demands as $supply_and_demand) {
+            $supply_and_demand->pics = json_decode($supply_and_demand->pics, true);
+        }
+        return $this->success('ok', $supply_and_demands);
     }
 }

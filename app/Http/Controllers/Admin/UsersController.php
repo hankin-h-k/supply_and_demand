@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\ApplicationForm;
 use App\Models\Info;
+use App\Models\SupplyAndDemand;
 class UsersController extends Controller
 {
     public function users(Request $request, User $user)
@@ -215,5 +216,27 @@ class UsersController extends Controller
     {
         $info_obj = $info->orderBy('id', 'desc')->first();
         return $this->success('ok', $info_obj);
+    }
+
+    /**
+     * 用户发布
+     */
+    public function userSupplyAndDemands(Request $request, User $user, SupplyAndDemand $supply_and_demand)
+    {
+        $user_id = $user->id;
+        $supply_and_demands = $supply_and_demand->where('user_id', $user_id);
+        $type = $request->input('type');
+        if ($type) {
+            $$supply_and_demands = $supply_and_demands->where('type', $type);
+        }
+        $status = $request->input('status');
+        if ($status) {
+            $$supply_and_demands = $supply_and_demands->where('status', $status);
+        }
+        $supply_and_demands = $supply_and_demands->orderBy('id', 'desc')->paginate();
+        foreach ($supply_and_demands as $supply_and_demand) {
+            $supply_and_demand->pics = json_decode($supply_and_demand->pics, true);
+        }
+        return $this->success('ok', $supply_and_demands);
     }
 }

@@ -22,8 +22,16 @@ Auth::routes();
 Route::post('wechat/mobile', 'Auth\LoginController@getPhone');
 
 Route::middleware('auth')->group(function () {
-	Route::get('cancel/top/supply/and/demands/{supply_and_demand}', 'Admin\SupplyAndDemandsController@cancelTopSupplyAndDemand');
-	Route::get('recommend/supply/and/demands/{supply_and_demand}', 'Admin\SupplyAndDemandsController@recommendSupplyAndDemand');
-
+	// Route::get('cancel/top/supply/and/demands/{supply_and_demand}', 'Admin\SupplyAndDemandsController@cancelTopSupplyAndDemand');
+	// Route::get('recommend/supply/and/demands/{supply_and_demand}', 'Admin\SupplyAndDemandsController@recommendSupplyAndDemand');
+	// Route::get('supply/and/demands', 'SupplyAndDemandsController@storeSupplyAndDemand');
+	// 	Route::get('industries', 'HomeController@industries');
+	// Route::get('user/supply/and/demands', 'UsersController@userSupplyAndDemands');
+	Route::get('home', 'HomeController@home');
+	Route::get('industries', 'HomeController@industries');
 });
+Route::get('/user/supply/and/demands', 'UsersController@userSupplyAndDemands');
+Route::get('supply/and/demands/{supply_and_demand}', 'SupplyAndDemandsController@show');
+		Route::get('my/collects', 'UsersController@myCollects');
+
 

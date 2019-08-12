@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\SupplyAndDemand;
 use App\Models\Collect;
+use App\Models\User;
 class SupplyAndDemandsController extends Controller
 {
 	/**
@@ -58,7 +59,10 @@ class SupplyAndDemandsController extends Controller
     	$supply_and_demand->link_email = implode('@', $link_email_arr);
     	//隐藏联系方式
     	$supply_and_demand->link_mobile = substr_replace($supply_and_demand->link_mobile, '********', 3);
-    	return $this->success('ok', $supply_and_demand);
+    	//是否收藏
+        $user = auth()->user();
+        $supply_and_demand->is_collected = $user->isCollected($supply_and_demand);
+        return $this->success('ok', $supply_and_demand);
     }
 
     /**
@@ -71,6 +75,24 @@ class SupplyAndDemandsController extends Controller
     	return $this->success('ok');
     }
 
+    public function storeSupplyAndDemand(Request $request, SupplyAndDemand $supply_and_demand)
+    {
+        $data['user_id'] = auth()->id();
+        $data['type'] = $request->input('type');
+        $data['title'] = $request->input('title');
+        $data['industry_id'] = $request->input('industry_id');
+        $data['city'] = $request->input('city');
+        $data['start_time'] =$request->input('start_time');
+        $data['end_time'] = $request->input('end_time');
+        $data['content'] = $request->input('content');
+        $data['pics'] = json_encode($request->input('pics', []));
+        $data['linkman'] = $request->input('linkman');
+        $data['link_mobile'] = $request->input('link_mobile');
+        $data['link_wechat'] = $request->input('link_wechat');
+        $data['link_email'] = $request->input('link_email');
+        $supply_and_demand_obj = $supply_and_demand->create($data);
+        return $this->success('ok', $supply_and_demand_obj);
+    }
 
 
 

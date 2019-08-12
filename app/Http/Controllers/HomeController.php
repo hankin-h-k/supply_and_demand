@@ -8,6 +8,7 @@ use App\Models\Article;
 use App\Models\Address;
 use App\Models\SupplyAndDemand;
 use App\Models\Info;
+use App\Models\Industry;
 class HomeController extends Controller
 {
     /**
@@ -86,5 +87,11 @@ class HomeController extends Controller
     public function article(Request $request, Article $article)
     {
         return $this->success('ok', $article);
+    }
+
+    public function industries(Request $request, Industry $industry)
+    {
+        $industries = $industry->all();
+        return $this->success('ok', $industries);
     }
 }
