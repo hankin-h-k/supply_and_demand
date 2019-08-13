@@ -90,6 +90,7 @@ class SupplyAndDemandsController extends Controller
         $data['link_mobile'] = $request->input('link_mobile');
         $data['link_wechat'] = $request->input('link_wechat');
         $data['link_email'] = $request->input('link_email');
+        $data['status'] = 'UNPLAYED';
         $supply_and_demand_obj = $supply_and_demand->create($data);
         return $this->success('ok', $supply_and_demand_obj);
     }

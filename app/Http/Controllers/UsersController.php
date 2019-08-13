@@ -100,10 +100,10 @@ class UsersController extends Controller
         $status = $request->input('status');
         $supply_and_demands = SupplyAndDemand::where('user_id', $user_id)->where(function($sql) use($type, $status){
             if ($type) {
-                $sql = $sql->where('type', 'SUPPLY');
+                $sql = $sql->where('type', $type);
             }
             if ($status) {
-                $sql = $sql->where('status', 'UNDERWAY');
+                $sql = $sql->where('status', $status);
             }
         });
         
