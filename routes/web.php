@@ -35,3 +35,4 @@ Route::get('supply/and/demands/{supply_and_demand}', 'SupplyAndDemandsController
 		Route::get('my/collects', 'UsersController@myCollects');
 
 
+Route::get('supply/and/demands', 'SupplyAndDemandsController@index');

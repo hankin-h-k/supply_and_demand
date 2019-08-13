@@ -34,7 +34,7 @@ class HomeController extends Controller
         $articles = $article->all();
         //推荐兼职
         $type = $request->input('type', 'SUPPLY');
-        $supply_and_demands = $supply_and_demand->where('is_recommend', 1)->where('type', $type)->where('status', 'UNDERWAY')->paginate();
+        $supply_and_demands = $supply_and_demand->where('is_recommend', 1)->where('type', $type)->where('status', 'UNDERWAY')->orderBy('is_top', 'desc')->orderBy('id', 'desc')->paginate();
         foreach ($supply_and_demands as $supply_and_demand) {
             $supply_and_demand->pics = json_decode($supply_and_demand->pics, true);
         }

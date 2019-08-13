@@ -17,7 +17,7 @@ class SupplyAndDemandsController extends Controller
     	$supply_and_demands = $supply_and_demand->where('type', $type)->where('status', 'UNDERWAY');
     	$keyword = $request->input('keyword');
         if ($keyword) {
-         	$keyword = trim('keyword');
+         	$keyword = trim($keyword);
          	$supply_and_demands = $supply_and_demands->where(function($sql) use($keyword){
             	$sql->where('title', 'like', '%'.$keyword.'%');
           	});
