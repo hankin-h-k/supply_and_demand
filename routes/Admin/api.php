@@ -70,6 +70,15 @@ Route::middleware('auth:api')->group(function () {
 	Route::post('link/info', 'UsersController@updateLinkInfo');
 
 	/**
+	 * 行业
+	 */
+	Route::get('industries', 'SupplyAndDemandsController@industries');
+	Route::get('industries/{industry}', 'SupplyAndDemandsController@industry');
+	Route::post('industries', 'SupplyAndDemandsController@storeIndustry');
+	Route::put('industries/{industry}', 'SupplyAndDemandsController@updateIndustry');
+	Route::delete('industries/{industry}', 'SupplyAndDemandsController@deleteIndustry');
+
+	/**
 	 * 供需
 	 */
 	//取消置顶
@@ -79,9 +88,11 @@ Route::middleware('auth:api')->group(function () {
 	//列表
 	Route::get('supply/and/demands', 'SupplyAndDemandsController@supplyAndDemands');
 	//详情
-	Route::get('supply/and/demands/{supply_and_demand}', 'SupplyAndDemandsController@supplyAndDemands');
+	Route::get('supply/and/demands/{supply_and_demand}', 'SupplyAndDemandsController@supplyAndDemand');
 	//修改状态
 	Route::put('supply/and/demands/{supply_and_demand}/status', 'SupplyAndDemandsController@updateSupplyAndDemandStatus');
 	//推荐
 	Route::put('recommend/supply/and/demands/{supply_and_demand}', 'SupplyAndDemandsController@recommendSupplyAndDemand');
+	//修改
+	Route::put('supply/and/demands/{supply_and_demand}', 'SupplyAndDemandsController@updateSupplyAndDemand');
 });
