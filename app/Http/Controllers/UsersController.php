@@ -44,6 +44,21 @@ class UsersController extends Controller
     }
 
     /**
+     * 修改用户信息
+     * @param  request $request [description]
+     * @return [type]           [description]
+     */
+    public function updateUser(Request $request)
+    {
+        $user = auth()->user();
+        if ($request->input('name') && $request->name != $user->name) {
+            $user->name = $request->name;
+        }
+        $user->save();
+        return $this->success('ok', $user);
+    }
+
+    /**
      * 修改头像
      */
     public function updateUserAvatar(Request $request)
@@ -81,7 +96,6 @@ class UsersController extends Controller
     public function userSupplyAndDemands(Request $request, SupplyAndDemand $supply_and_demand)
     {
         $user_id = auth()->id();
-        $user_id =1;
         $type = $request->input('type');
         $status = $request->input('status');
         $supply_and_demands = SupplyAndDemand::where('user_id', $user_id)->where(function($sql) use($type, $status){
