@@ -95,4 +95,6 @@ Route::middleware('auth:api')->group(function () {
 	Route::put('recommend/supply/and/demands/{supply_and_demand}', 'SupplyAndDemandsController@recommendSupplyAndDemand');
 	//修改
 	Route::put('supply/and/demands/{supply_and_demand}', 'SupplyAndDemandsController@updateSupplyAndDemand');
+	//删除
+	Route::delete('supply/and/demands/{supply_and_demand}', 'SupplyAndDemandsController@deleteSupplyAndDemand');
 });

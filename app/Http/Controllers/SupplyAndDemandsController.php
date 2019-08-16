@@ -62,6 +62,7 @@ class SupplyAndDemandsController extends Controller
     	//是否收藏
         $user = auth()->user();
         $supply_and_demand->is_collected = $user->isCollected($supply_and_demand);
+        $supply_and_demand->increment('click_num', 1);
         return $this->success('ok', $supply_and_demand);
     }
 

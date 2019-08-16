@@ -84,6 +84,15 @@ class SupplyAndDemandsController extends Controller
     }
 
     /**
+     * 删除供需
+     */
+    public function deleteSupplyAndDemand(Request $request, SupplyAndDemand $supply_and_demand)
+    {
+        $supply_and_demand->delete();
+        return $this->success('ok')
+    }
+
+    /**
      * 修改推荐
      */
     public function recommendSupplyAndDemand(Request $request, SupplyAndDemand $supply_and_demand)
