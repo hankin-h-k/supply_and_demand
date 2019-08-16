@@ -89,7 +89,7 @@ class SupplyAndDemandsController extends Controller
     public function deleteSupplyAndDemand(Request $request, SupplyAndDemand $supply_and_demand)
     {
         $supply_and_demand->delete();
-        return $this->success('ok')
+        return $this->success('ok');
     }
 
     /**
